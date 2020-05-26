@@ -29,8 +29,8 @@ echo "please wait"
   --initial-advertise-peer-urls=https://${CURRENT_HOST_IP}:2380 \
   --data-dir=/var/lib/etcd
 
-#cp -r ${backup_dir}/kubelet /var/lib/ 
-#cp -r ${backup_dir}/kubernetes /etc/
+cp -r ${backup_dir}/kubelet /var/lib/ 
+cp -r ${backup_dir}/kubernetes /etc/
 
 mv /etc/kubernetes/manifests.bak /etc/kubernetes/manifests
 systemctl restart kubelet
