@@ -1,0 +1,8 @@
+harborx.szewec.com/base/openjdk:8-jdk-alpine
+harborx.szewec.com/base/nginx:18
+harborx.szewec.com/base/nginx:latest
+harborx.szewec.com/base/java:8
+harborx.szewec.com/base/maven:2.0
+harborx.szewec.com/base/jenkins/jnlp-slave:alpine
+harborx.szewec.com/base/docker:latest
+harborx.szewec.com/base/maven:3.6-alpine
