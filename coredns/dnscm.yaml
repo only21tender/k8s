@@ -1,0 +1,28 @@
+apiVersion: v1
+data:
+  Corefile: |-
+    .:53 {
+      cache 30
+      errors
+      forward . /etc/resolv.conf
+      health
+      hosts {
+         10.0.20.3 harborx.szewec.com  ##注意缩进否则可能不生效
+         fallthrough
+      }
+      kubernetes cluster.local in-addr.arpa ip6.arpa {
+        pods insecure
+        fallthrough in-addr.arpa ip6.arpa
+        ttl 30
+      }
+      loadbalance
+      loop
+      prometheus :9153
+      ready
+      reload
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: coredns
+  selfLink: /api/v1/namespaces/kube-system/configmaps/coredns

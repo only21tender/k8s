@@ -1,0 +1,1 @@
+kc get cm coredns -n kube-system -o yaml --export   >dnscm.yaml
