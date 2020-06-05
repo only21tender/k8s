@@ -51,7 +51,7 @@ fi
 # 镜像压缩文件列表
 images=$(cat images.txt |sed "s#/#-#g; s#:#-#g")
 #images_path=images-$(date +"%Y-%m-%d")
-images_path=images_dir
+images_path=images-harbor
 cd $images_path
 
 # 导入镜像

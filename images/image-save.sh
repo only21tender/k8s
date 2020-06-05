@@ -50,33 +50,40 @@ fi
 
 #mkdir -p images-$(date +"%Y-%m-%d")
 #cd images-$(date +"%Y-%m-%d")
-mkdir -p images-harbor
+project=harbor
+images_path="images-${project}"
+mkdir -p ${images_path}
 
 for i in $(cat ${list}); 
 do
-    docker pull ${i}
-
-    if [ $? -ne 0 ]; then
-        logger "${i} pull failed."
-    else
-        logger "${i} pull successfully."
-    fi
-
-    #docker save ${i} | gzip >images-$(date +"%Y-%m-%d")/$(echo $i |sed "s#/#-#g; s#:#-#g").tgz
     image_name=`echo ${i} |awk -F: '{print $1}'`
     image_tag=`echo ${i} |awk -F: '{print $2}'`
     docker images|grep ${image_name} |grep ${image_tag} >/dev/null 2>&1
     if [ $? -ne 0 ];then
-       docker save ${i} | gzip >images-harbor/$(echo $i |sed "s#/#-#g; s#:#-#g").tgz
+       docker pull ${i}
+       if [ $? -ne 0 ]; then
+           logger "${i} pull failed."
+       else
+           logger "${i} pull successfully."
+       fi
     else
-       echo "$i is already exists"
+       echo "image $i is already pulled"
+       echo $i
+       image_pkg_name="`echo ${i} |sed "s#/#-#g; s#:#-#g"`.tgz"
+       echo $image_pkg_name
+       ls ${images_path} |grep "${image_pkg_name}" >/dev/null 2>&1 
+       if [ $? -ne 0 ];then
+           docker save ${i} | gzip >${images_path}/${image_pkg_name}
+           if [ $? -ne 0 ]; then
+               logger "${i} save failed."
+           else
+               logger "${i} save successfully."
+           fi
+       else
+           echo "${images_path} image $i is already exists"
+       fi
     fi
 
-    if [ $? -ne 0 ]; then
-        logger "${i} save failed."
-    else
-        logger "${i} save successfully."
-    fi
     echo 
     echo --------------------------------------------------------------------
 done
