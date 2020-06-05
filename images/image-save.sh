@@ -63,11 +63,20 @@ do
     fi
 
     #docker save ${i} | gzip >images-$(date +"%Y-%m-%d")/$(echo $i |sed "s#/#-#g; s#:#-#g").tgz
-    docker save ${i} | gzip >images-harbor/$(echo $i |sed "s#/#-#g; s#:#-#g").tgz
+    image_name=`echo ${i} |awk -F: '{print $1}'`
+    image_tag=`echo ${i} |awk -F: '{print $2}'`
+    docker images|grep ${image_name} |grep ${image_tag} >/dev/null 2>&1
+    if [ $? -ne 0 ];then
+       docker save ${i} | gzip >images-harbor/$(echo $i |sed "s#/#-#g; s#:#-#g").tgz
+    else
+       echo "$i is already exists"
+    fi
 
     if [ $? -ne 0 ]; then
         logger "${i} save failed."
     else
         logger "${i} save successfully."
     fi
+    echo 
+    echo --------------------------------------------------------------------
 done
