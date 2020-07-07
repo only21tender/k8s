@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  #namespace: $NAMESPACE
+  name: $APP_NAME
+spec:
+  rules:
+  - host: $DOMAIN_NAME
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: $APP_NAME
+          servicePort: 80
