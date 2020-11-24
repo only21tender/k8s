@@ -341,7 +341,7 @@ controller:
       http: http
       https: https
 
-    type: LoadBalancer
+    type: NodePort 
 
     # type: NodePort
     # nodePorts:
