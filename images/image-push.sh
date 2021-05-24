@@ -36,9 +36,9 @@ images_hub() {
 }
 
 #images_hub
-registry=nexusx.szewec.com:8099
-registry_user=admin
-registry_password=admin123
+registry=
+registry_user=
+registry_password=
 
 
 echo "镜像仓库 $(docker login -u ${registry_user} -p ${registry_password} ${registry})"
